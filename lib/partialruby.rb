@@ -75,7 +75,7 @@ module PartialRuby
 
         return eval("
           class #{classname}
-            PureRubyContext.new.run(#{object_ref subtree}, Frame.new(binding,self) )
+            #{object_ref self}.run(#{object_ref subtree}, Frame.new(binding,self) )
           end
         ", frame._binding)
     end
@@ -88,7 +88,7 @@ module PartialRuby
       _self = frame._self
 
       eval("def #{method_name}
-          PureRubyContext.new.run(#{object_ref impl}, Frame.new(binding,self) )
+          #{object_ref self}.run(#{object_ref impl}, Frame.new(binding,self) )
         end
       ", frame._binding)
 
