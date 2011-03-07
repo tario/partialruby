@@ -1,7 +1,7 @@
-= selfruby - Ruby partial interpreter written in pure ruby
+= partialruby - Ruby partial interpreter written in pure ruby
 
 What I trying to say with "partial" ? Well, the ruby interpreter is composed by a few main conceptual "components":  parser, api, VM and execution environment. A partial interpreter will be a library implementing only one or even only part of one of these basic components. 
-In this case, selfruby only implements part of the VM (e.g. selfruby DOESN'T implement a GC), use the excenllent ruby_parser gem (https://github.com/seattlerb/ruby_parser) to parse ruby code and use the real interpreter to the rest (api, environment, etc...).
+In this case, partialruby only implements part of the VM (e.g. partialruby DOESN'T implement a GC), use the excenllent ruby_parser gem (https://github.com/seattlerb/ruby_parser) to parse ruby code and use the real interpreter to the rest (api, environment, etc...).
 
 == Goals:
 
@@ -18,23 +18,23 @@ In this case, selfruby only implements part of the VM (e.g. selfruby DOESN'T imp
 
 === Gem Installation (pending)
 
-sudo gem install selfruby
+sudo gem install partialruby
 
 OR
 
-* Download the last version of the gem from http://github.com/tario/selfruby/downloads
+* Download the last version of the gem from http://github.com/tario/partialruby/downloads
 * Install the gem with the following;
 
-sudo gem install selfruby-X.X.X.gem.
+sudo gem install partialruby-X.X.X.gem.
 
 == Documentation (pending)
 
 Full API documentation can be found on:
-http://tario.github.com/selfruby/doc/
+http://tario.github.com/partialruby/doc/
 
 == Usage (pending)
 
-This examples and more can be found in examples directory
+Basically 
 
 == Copying
 
