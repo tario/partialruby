@@ -46,6 +46,8 @@ module PartialRuby
     end
 
     def run(tree, frame)
+      return nil unless tree
+
       nodetype = tree.first
 
       send("handle_node_"+nodetype.to_s, tree, frame)
