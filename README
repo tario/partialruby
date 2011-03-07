@@ -1,0 +1,42 @@
+= selfruby - Ruby partial interpreter written in pure ruby
+
+What I trying to say with "partial" ? Well, the ruby interpreter is composed by a few main conceptual "components":  parser, api, VM and execution environment. A partial interpreter will be a library implementing only one or even only part of one of these basic components. 
+In this case, selfruby only implements part of the VM (e.g. selfruby DOESN'T implement a GC), use the excenllent ruby_parser gem (https://github.com/seattlerb/ruby_parser) to parse ruby code and use the real interpreter to the rest (api, environment, etc...).
+
+== Goals:
+
+=== Implement a alternative VM which export services that is not exported by the original VM without implementing a entire ruby interpreter or fork an existing ruby interpreter
+	- Control of execution flow via hooking for sandboxing (see evalhook and shikashi projects)
+	- Fast DSL (over ruby, and faster than ruby itself!)
+
+=== Proof of Concept of interpreter and partial interpreter development
+
+	- Hyper-portability: microruby
+	- Search for a faster ruby
+
+== Installation
+
+=== Gem Installation (pending)
+
+sudo gem install selfruby
+
+OR
+
+* Download the last version of the gem from http://github.com/tario/selfruby/downloads
+* Install the gem with the following;
+
+sudo gem install selfruby-X.X.X.gem.
+
+== Documentation (pending)
+
+Full API documentation can be found on:
+http://tario.github.com/selfruby/doc/
+
+== Usage (pending)
+
+This examples and more can be found in examples directory
+
+== Copying
+
+Copyright (c) 2010-2011 Dario Seminara, released under the GPL License (see LICENSE)
+	
