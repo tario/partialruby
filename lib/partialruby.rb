@@ -33,10 +33,12 @@ module PartialRuby
   class Frame
     attr_reader :_binding
     attr_reader :_self
+    attr_reader :locals
 
     def initialize(b, _self)
       @_binding = b
       @_self = _self
+      @locals = Hash.new
     end
   end
 
@@ -67,6 +69,22 @@ module PartialRuby
       end
 
       last
+    end
+
+    def handle_node_lasgn(tree,frame)
+      varname = tree[1]
+      value = run(tree[2], frame)
+
+      frame.locals[varname] = value
+    end
+
+    def handle_node_lit(tree,frame)
+      tree[1]
+    end
+
+    def handle_node_lvar(tree,frame)
+      varname = tree[1]
+      frame.locals[varname]
     end
 
     def handle_node_class(tree, frame)
