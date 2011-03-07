@@ -52,38 +52,6 @@ module PartialRuby
 
       send("handle_node_"+nodetype.to_s, tree, frame)
     end
-
-    def ast
-      if nodetype == :scope
-        return run(tree[1], frame)
-      end
-
-      if nodetype == :class
-        classname = tree[1]
-        subtree = tree[3]
-
-        return eval("
-          class #{classname}
-            Context.new.run(#{object_ref subtree}, Frame.new(binding,self) )
-          end
-        ", frame._binding)
-      end
-
-      if nodetype == :block
-
-        last = nil
-        tree[1..-1].each do  |subtree|
-          last = run(subtree, frame)
-        end
-
-        return last
-      end
-
-      if nodetype == :defn
-      end
-
-      raise "Unkown node type :#{nodetype}\n"
-    end
   end
 
   class PureRubyContext < Context
