@@ -86,7 +86,31 @@ module PartialRuby
 
   class PureRubyContext < Context
 
-    def handle_node_str(tree, frame)
+    def handle_node_scope(tree, frame)
+      run(tree[1], frame)
+    end
+
+    def handle_node_block(tree, frame)
+      last = nil
+      tree[1..-1].each do  |subtree|
+        last = run(subtree, frame)
+      end
+
+      last
+    end
+
+    def handle_node_class(tree, frame)
+        classname = tree[1]
+        subtree = tree[3]
+
+        return eval("
+          class #{classname}
+            PureRubyContext.new.run(#{object_ref subtree}, Frame.new(binding,self) )
+          end
+        ", frame._binding)
+    end
+
+    def handle_node_defn(tree, frame)
       method_name = tree[1]
       args = tree[2]
       impl = tree[3][1]
@@ -94,7 +118,7 @@ module PartialRuby
       _self = frame._self
 
       eval("def #{method_name}
-          Context.new.run(#{object_ref impl}, Frame.new(binding,self) )
+          PureRubyContext.new.run(#{object_ref impl}, Frame.new(binding,self) )
         end
       ", frame._binding)
 
