@@ -30,9 +30,14 @@ describe Context, "PartialRuby context" do
     TestClassWithFoo::X.should be == TestClassWithFoo::X
   end
 
-  it "should write local variable" do
-
+  it "should write a local variable" do
     PartialRuby.eval "a = 5", binding
     a.should be == 5
   end
+
+  it "should read a local variable" do
+    a = 5
+    PartialRuby.eval("a", binding).should be == 5
+  end
+
 end
