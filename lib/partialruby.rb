@@ -24,7 +24,7 @@ require "ruby_parser"
 module PartialRuby
 
   def self.eval(code, b_)
-    c = Context.new
+    c = PureRubyContext.new
 
     parser = RubyParser.new
     c.run(parser.parse(code), Frame.new(b_, b_.eval("self")) )
@@ -41,16 +41,17 @@ module PartialRuby
   end
 
   class Context
-
-
     def object_ref(obj)
       "ObjectSpace._id2ref(#{obj.object_id})"
     end
 
-
     def run(tree, frame)
       nodetype = tree.first
 
+      send("handle_node_"+nodetype.to_s, tree, frame)
+    end
+
+    def ast
       if nodetype == :scope
         return run(tree[1], frame)
       end
@@ -77,21 +78,33 @@ module PartialRuby
       end
 
       if nodetype == :defn
-        method_name = tree[1]
-        args = tree[2]
-        impl = tree[3][1]
-
-        _self = frame._self
-
-        eval("def #{method_name}
-            Context.new.run(#{object_ref impl}, Frame.new(binding,self) )
-          end
-        ", frame._binding)
-
-        return
       end
 
-      if nodetype == :call
+      raise "Unkown node type :#{nodetype}\n"
+    end
+  end
+
+  class PureRubyContext < Context
+
+    def handle_node_str(tree, frame)
+      method_name = tree[1]
+      args = tree[2]
+      impl = tree[3][1]
+
+      _self = frame._self
+
+      eval("def #{method_name}
+          Context.new.run(#{object_ref impl}, Frame.new(binding,self) )
+        end
+      ", frame._binding)
+
+    end
+
+    def handle_node_str(tree, frame)
+      tree[1]
+    end
+
+    def handle_node_call(tree, frame)
         object_tree = tree[1]
 
         if object_tree then
@@ -111,17 +124,8 @@ module PartialRuby
         end
 
         return recv.send(method_name, *args)
-
-      end
-
-      if nodetype == :str then
-        return tree[1]
-      end
-
-      raise "Unkown node type :#{nodetype}\n"
     end
   end
-
 
 #X.new.foo
 end
