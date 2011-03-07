@@ -40,4 +40,8 @@ describe Context, "PartialRuby context" do
     PartialRuby.eval("a", binding).should be == 5
   end
 
+  it "should declare and read a local variable" do
+    PartialRuby.eval("a = 5; a", binding).should be == 5
+  end
+
 end
