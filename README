@@ -34,7 +34,36 @@ http://tario.github.com/partialruby/doc/
 
 == Usage (pending)
 
-Basically 
+Basically, partialruby export two APIs:
+
+* A alernative eval function with context. Example:
+
+  require "partialruby"
+  
+  context = PartialRuby::Context.new
+  context.eval('print "hello world\n"')
+
+Or
+
+  require "partialruby"
+  
+  PartialRuby.eval('print "hello world\n"')
+  
+* A flexible node handling. Example
+
+  require "partialruby"
+  
+  class MyPartialRubyContext < PartialRuby::Context
+  
+    node_handler :call, proc do |original_handler, node|
+        print "called #{node.id} method over #{node.recv}\n"
+	original_handler.call(node)
+    end
+    
+  end
+  
+  context = MyPartialRubyContext.new
+  context.eval('print "hello world\n"')
 
 == Copying
 
