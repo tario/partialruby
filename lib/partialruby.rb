@@ -117,7 +117,12 @@ module PartialRuby
           args << run(subtree, frame)
         end
 
-        return recv.send(method_name, *args)
+        if args.count == 0
+          frame._binding.eval(method_name.to_s)
+        else
+          recv.send(method_name, *args)
+        end
+
     end
   end
 
