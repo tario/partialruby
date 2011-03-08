@@ -57,13 +57,17 @@ describe Context, "PartialRuby context" do
   #  a.should be == 5
 #  end
 
-  it "should read a local variable" do
-    a = 5
-    PartialRuby.eval("a", binding).should be == 5
+  def self.test_local_with_value(value)
+    it "should read a local variable with value #{value}" do
+      a = eval(value)
+      PartialRuby.eval("a", binding).should be == eval(value)
+    end
+
+    it "should declare and read a local variable with value #{value}" do
+      PartialRuby.eval("a = #{value}; a", binding).should be == eval(value)
+    end
   end
 
-  it "should declare and read a local variable" do
-    PartialRuby.eval("a = 5; a", binding).should be == 5
-  end
+  test_local_with_value "5"
 
 end
