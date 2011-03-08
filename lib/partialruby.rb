@@ -49,7 +49,7 @@ module PartialRuby
 
     def ruby_emul(tree, frame)
       nodetype = tree.first
-      eval(send("ruby_emul_"+nodetype.to_s, tree, frame))
+      eval(send("ruby_emul_"+nodetype.to_s, tree, frame), frame._binding)
     end
 
     def emul(tree, frame)
@@ -107,15 +107,15 @@ module PartialRuby
       frame.locals[varname]
     end
 
-    def handle_node_class(tree, frame)
+    def ruby_emul_class(tree, frame)
         classname = tree[1]
         subtree = tree[3]
 
-        return eval("
+        return ("
           class #{classname}
             #{object_ref self}.run(#{object_ref subtree}, Frame.new(binding,self) )
           end
-        ", frame._binding)
+        ")
     end
 
     def handle_node_defn(tree, frame)
