@@ -69,7 +69,7 @@ module PartialRuby
       begin
         # first, try to emul the node
         return eval(ruby_emul(tree, frame), frame._binding)
-      rescue NoMethodError
+      rescue NoMethodError => e
       end
 
       send("handle_node_"+nodetype.to_s, tree, frame)
@@ -152,29 +152,21 @@ module PartialRuby
       "(#{object_ref tree[1]})"
     end
 
-    def handle_node_call(tree, frame)
+    def ruby_emul_call(tree, frame)
         object_tree = tree[1]
-
-        if object_tree then
-          recv = run(object_tree, frame)
-        else
-          recv = frame._self
-        end
-
         method_name = tree[2]
 
         arglist = tree[3]
 
-        args = Array.new
+        argsstr = arglist[1..-1].
+              map{|subtree| "(" +  emul(subtree, frame) + ")" }.
+              join(",")
 
-        arglist[1..-1].each do |subtree|
-          args << run(subtree, frame)
-        end
 
-        if args.count == 0
-          frame._binding.eval(method_name.to_s)
+        if (object_tree)
+          "((#{emul(object_tree)}).#{method_name}(#{argsstr})"
         else
-          recv.send(method_name, *args)
+          "#{method_name}(#{argsstr})"
         end
 
     end
