@@ -191,6 +191,18 @@ module PartialRuby
       "(self)"
     end
 
+    def ruby_emul_true(tree,frame)
+      "true"
+    end
+
+    def ruby_emul_false(tree,frame)
+      "false"
+    end
+
+    def ruby_emul_if(tree,frame)
+      "if (#{emul tree[1], frame}); (#{emul tree[2], frame}) else (#{emul tree[3], frame}) end"
+    end
+
     def ruby_emul_call(tree, frame)
         object_tree = tree[1]
         method_name = tree[2]
