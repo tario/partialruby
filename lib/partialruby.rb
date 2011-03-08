@@ -134,9 +134,28 @@ module PartialRuby
       varname.to_s + ";"
     end
 
+    def ruby_emul_const(tree, frame)
+      tree[1].to_s
+    end
+
+    def ruby_emul_colon3(tree, frame)
+      "::" + tree[1].to_s
+    end
+
+    def ruby_emul_colon2(tree, frame)
+      "#{emul tree[1], frame}::#{tree[2]}"
+    end
+
     def ruby_emul_class(tree, frame)
-        classname = tree[1]
+        classtree = tree[1]
         subtree = tree[3]
+
+        classname = ""
+        if classtree.instance_of? Symbol then
+          classname = classtree
+        else
+          classname = emul classtree, frame
+        end
 
         return ("
           class #{classname}
