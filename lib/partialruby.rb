@@ -211,6 +211,23 @@ module PartialRuby
       "until (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
 
+    def ruby_emul_case(tree)
+      str = "case #{emul tree[1]}; "
+
+      tree[2..-2].each do |subtree|
+        matches = subtree[1][1..-1].map{|subsubtree| "(" + emul(subsubtree) + ")" }.join(",")
+
+        str << "when #{matches}; #{emul subtree[2]};"
+      end
+
+      if tree[-1]
+        str << "else; #{emul tree[-1]}; "
+      end
+
+      str << "end; "
+      str
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
