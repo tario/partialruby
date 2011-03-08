@@ -113,7 +113,7 @@ module PartialRuby
 
         return ("
           class #{classname}
-            #{object_ref self}.run(#{object_ref subtree}, Frame.new(binding,self) )
+            #{emul subtree, frame}
           end
         ")
     end
