@@ -14,5 +14,8 @@ describe Context, "PartialRuby context" do
   end
 
   assert_ruby_expr "if true; true; else; false; end"
+  assert_ruby_expr "if true; true; else; true; end"
+  assert_ruby_expr "if true; false; else; true; end"
+  assert_ruby_expr "if true; false; else; false; end"
 
 end
