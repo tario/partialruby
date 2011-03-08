@@ -19,4 +19,5 @@ describe Context, "PartialRuby context" do
   assert_ruby_expr "if true; false; else; false; end"
 
   assert_ruby_expr "i = 5 ; while(i>0); i=i-1; end; i"
+  assert_ruby_expr "i = 5 ; until(i==0); i=i-1; end; i"
 end
