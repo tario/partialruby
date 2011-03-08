@@ -20,4 +20,12 @@ describe Context, "PartialRuby context" do
 
   assert_ruby_expr "i = 5 ; while(i>0); i=i-1; end; i"
   assert_ruby_expr "i = 5 ; until(i==0); i=i-1; end; i"
+
+  assert_ruby_expr "case 1; when 1; 2; end"
+  assert_ruby_expr "case 2; when 1; 2; when 2; 3; end"
+  assert_ruby_expr "case 1; when 1; 2; when 2; 3; end"
+  assert_ruby_expr "case 1; when 1; 2; when 2; 3; when 3; 4; end"
+  assert_ruby_expr "case 2; when 1; 2; when 2; 3; when 3; 4; end"
+  assert_ruby_expr "case 3; when 1; 2; when 2; 3; when 3; 4; end"
+  assert_ruby_expr "case 4; when 1; 2; when 2; 3; when 3; 4; default; 9; end"
 end
