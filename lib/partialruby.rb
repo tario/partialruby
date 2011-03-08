@@ -144,12 +144,12 @@ module PartialRuby
       "
     end
 
-    def handle_node_lit(tree,frame)
-      tree[1]
+    def ruby_emul_lit(tree, frame)
+      "(#{object_ref tree[1]})"
     end
 
-    def handle_node_str(tree, frame)
-      tree[1]
+    def ruby_emul_str(tree, frame)
+      "(#{object_ref tree[1]})"
     end
 
     def handle_node_call(tree, frame)
