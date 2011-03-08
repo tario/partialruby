@@ -47,15 +47,15 @@ module PartialRuby
       "ObjectSpace._id2ref(#{obj.object_id})"
     end
 
-    def ruby_emul(tree, frame)
+    def ruby_emul(tree)
       nodetype = tree.first
-      send("ruby_emul_"+nodetype.to_s, tree, frame)
+      send("ruby_emul_"+nodetype.to_s, tree)
     end
 
-    def emul(tree, frame)
+    def emul(tree)
       begin
         # first, try to emul the node
-        return ruby_emul(tree, frame)
+        return ruby_emul(tree)
       rescue NoMethodError => e
         "#{object_ref self}.run(#{object_ref tree}, PartialRuby::Frame.new(binding,self) )"
       end
@@ -69,7 +69,7 @@ module PartialRuby
       code = nil
       begin
         # first, try to emul the node
-        code = ruby_emul(tree, frame)
+        code = ruby_emul(tree)
       rescue NoMethodError => e
       end
 
@@ -87,32 +87,32 @@ module PartialRuby
  #     run(tree[1], frame)
   #  end
 
-    def ruby_emul_nil(tree, frame)
+    def ruby_emul_nil(tree)
       "(nil)"
     end
 
-    def ruby_emul_scope(tree, frame)
-      emul tree[1], frame
+    def ruby_emul_scope(tree)
+      emul tree[1]
     end
 
-    def ruby_emul_block(tree, frame)
+    def ruby_emul_block(tree)
       last = nil
 
       code = ""
       tree[1..-1].each do  |subtree|
-        code << emul(subtree, frame) << "\n"
+        code << emul(subtree) << "\n"
       end
 
       code
     end
 
-    def ruby_emul_hash(tree, frame)
+    def ruby_emul_hash(tree)
       pairs = Array.new
       (0..((tree.size - 1) / 2)-1).each do |i|
         pairs << [ tree[i*2+1], tree[i*2+2] ]
       end
 
-      "{" + pairs.map{|pair| "(#{emul pair.first, frame})=>(#{emul pair.last, frame} )" }.join(",") + "}"
+      "{" + pairs.map{|pair| "(#{emul pair.first})=>(#{emul pair.last} )" }.join(",") + "}"
     end
 
 #    def handle_node_block(tree, frame)
@@ -124,29 +124,29 @@ module PartialRuby
      # last
     #end
 
-    def ruby_emul_lasgn(tree, frame)
+    def ruby_emul_lasgn(tree)
       varname = tree[1]
-      "#{varname} = ( #{emul(tree[2], frame)} );"
+      "#{varname} = ( #{emul(tree[2])} );"
     end
 
-    def ruby_emul_lvar(tree,frame)
+    def ruby_emul_lvar(tree)
       varname = tree[1]
       varname.to_s + ";"
     end
 
-    def ruby_emul_const(tree, frame)
+    def ruby_emul_const(tree)
       tree[1].to_s
     end
 
-    def ruby_emul_colon3(tree, frame)
+    def ruby_emul_colon3(tree)
       "::" + tree[1].to_s
     end
 
-    def ruby_emul_colon2(tree, frame)
-      "#{emul tree[1], frame}::#{tree[2]}"
+    def ruby_emul_colon2(tree)
+      "#{emul tree[1]}::#{tree[2]}"
     end
 
-    def ruby_emul_class(tree, frame)
+    def ruby_emul_class(tree)
         classtree = tree[1]
         subtree = tree[3]
 
@@ -154,76 +154,76 @@ module PartialRuby
         if classtree.instance_of? Symbol then
           classname = classtree
         else
-          classname = emul classtree, frame
+          classname = emul classtree
         end
 
         return ("
           class #{classname}
-            #{emul subtree, frame}
+            #{emul subtree}
           end
         ")
     end
 
-    def ruby_emul_defn(tree, frame)
+    def ruby_emul_defn(tree)
       method_name = tree[1]
       args = tree[2]
       impl = tree[3][1]
 
       "def #{method_name}
-          #{emul impl, frame}
+          #{emul impl}
         end
       "
     end
 
-    def ruby_emul_lit(tree, frame)
+    def ruby_emul_lit(tree)
       "(#{object_ref tree[1]})"
     end
 
-    def ruby_emul_str(tree, frame)
+    def ruby_emul_str(tree)
       "(#{object_ref tree[1]})"
     end
 
-    def ruby_emul_array(tree, frame)
-      "[" + tree[1..-1].map{ |subtree| "(" + emul(subtree, frame) + ")" }.join(",") + "]"
+    def ruby_emul_array(tree)
+      "[" + tree[1..-1].map{ |subtree| "(" + emul(subtree) + ")" }.join(",") + "]"
     end
 
-    def ruby_emul_self(tree,frame)
+    def ruby_emul_self(tree)
       "(self)"
     end
 
-    def ruby_emul_true(tree,frame)
+    def ruby_emul_true(tree)
       "true"
     end
 
-    def ruby_emul_false(tree,frame)
+    def ruby_emul_false(tree)
       "false"
     end
 
-    def ruby_emul_if(tree,frame)
-      "if (#{emul tree[1], frame}); (#{emul tree[2], frame}) else (#{emul tree[3], frame}) end"
+    def ruby_emul_if(tree)
+      "if (#{emul tree[1]}); (#{emul tree[2]}) else (#{emul tree[3]}) end"
     end
 
-    def ruby_emul_while(tree,frame)
-      "while (#{emul tree[1], frame}); (#{emul tree[2], frame}); end "
+    def ruby_emul_while(tree)
+      "while (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
 
-    def ruby_emul_until(tree,frame)
-      "until (#{emul tree[1], frame}); (#{emul tree[2], frame}); end "
+    def ruby_emul_until(tree)
+      "until (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
 
-    def ruby_emul_call(tree, frame)
+    def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
 
         arglist = tree[3]
 
         argsstr = arglist[1..-1].
-              map{|subtree| "(" +  emul(subtree, frame) + ")" }.
+              map{|subtree| "(" +  emul(subtree) + ")" }.
               join(",")
 
 
         if (object_tree)
-          "(#{emul(object_tree, frame)}).#{method_name}(#{argsstr})"
+          "(#{emul(object_tree)}).#{method_name}(#{argsstr})"
         else
           if arglist.count == 0
           "#{method_name}(#{argsstr})"
