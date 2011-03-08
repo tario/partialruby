@@ -106,6 +106,15 @@ module PartialRuby
       code
     end
 
+    def ruby_emul_hash(tree, frame)
+      pairs = Array.new
+      (0..((tree.size - 1) / 2)-1).each do |i|
+        pairs << [ tree[i*2+1], tree[i*2+2] ]
+      end
+
+      "{" + pairs.map{|pair| "(#{emul pair.first, frame})=>(#{emul pair.last, frame} )" }.join(",") + "}"
+    end
+
 #    def handle_node_block(tree, frame)
  #     last = nil
   #    tree[1..-1].each do  |subtree|
