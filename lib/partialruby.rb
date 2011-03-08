@@ -155,6 +155,10 @@ module PartialRuby
       "(#{object_ref tree[1]})"
     end
 
+    def ruby_emul_array(tree, frame)
+      "[" + tree[1..-1].map{ |subtree| "(" + emul(subtree, frame) + ")" }.join(",") + "]"
+    end
+
     def ruby_emul_call(tree, frame)
         object_tree = tree[1]
         method_name = tree[2]

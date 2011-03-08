@@ -75,5 +75,6 @@ describe Context, "PartialRuby context" do
   test_local_with_value "5"
   test_local_with_value "5.5"
   test_local_with_value "'teststring'"
+  test_local_with_value "[5]"
 
 end
