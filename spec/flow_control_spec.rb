@@ -28,4 +28,6 @@ describe Context, "PartialRuby context" do
   assert_ruby_expr "case 2; when 1; 2; when 2; 3; when 3; 4; end"
   assert_ruby_expr "case 3; when 1; 2; when 2; 3; when 3; 4; end"
   assert_ruby_expr "case 4; when 1; 2; when 2; 3; when 3; 4; else; 9; end"
+
+  assert_ruby_expr "case 1; when (if true; 1; else; false; end),9; 2; when 2; 3; else; 9; end"
 end
