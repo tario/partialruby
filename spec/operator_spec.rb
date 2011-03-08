@@ -21,4 +21,6 @@ describe Context, "PartialRuby context" do
 
   test_operators "+", "-", "/", "*", "**"
 
+  assert_ruby_expr "[1][0]"
+
 end
