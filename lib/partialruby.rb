@@ -56,7 +56,7 @@ module PartialRuby
       begin
         # first, try to emul the node
         return ruby_emul(tree, frame)
-      rescue NoMethodError
+      rescue NoMethodError => e
         "#{object_ref self}.run(#{object_ref tree}, PartialRuby::Frame.new(binding,self) )"
       end
     end
@@ -117,9 +117,7 @@ module PartialRuby
 
     def ruby_emul_lasgn(tree, frame)
       varname = tree[1]
-      value = run(tree[2], frame)
-
-      "#{varname} = #{object_ref value};"
+      "#{varname} = ( #{emul(tree[2], frame)} );"
     end
 
     def ruby_emul_lvar(tree,frame)
