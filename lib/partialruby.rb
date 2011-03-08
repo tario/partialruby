@@ -110,7 +110,7 @@ module PartialRuby
       varname = tree[1]
       value = run(tree[2], frame)
 
-      frame.locals[varname] = value
+      frame._binding.eval("#{varname} = #{object_ref value}")
     end
 
     def handle_node_lit(tree,frame)
@@ -119,7 +119,7 @@ module PartialRuby
 
     def handle_node_lvar(tree,frame)
       varname = tree[1]
-      frame.locals[varname]
+      frame._binding.eval(varname.to_s)
     end
 
     def ruby_emul_class(tree, frame)
