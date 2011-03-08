@@ -58,6 +58,10 @@ describe Context, "PartialRuby context" do
 #  end
 
   def self.test_local_with_value(value)
+    it "should allow represent literal #{value}" do
+      PartialRuby.eval(value, binding).should be == eval(value)
+    end
+
     it "should read a local variable with value #{value}" do
       a = eval(value)
       PartialRuby.eval("a", binding).should be == eval(value)
@@ -69,5 +73,7 @@ describe Context, "PartialRuby context" do
   end
 
   test_local_with_value "5"
+  test_local_with_value "5.5"
+  test_local_with_value "'teststring'"
 
 end
