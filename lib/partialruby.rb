@@ -66,13 +66,18 @@ module PartialRuby
 
       nodetype = tree.first
 
+      code = nil
       begin
         # first, try to emul the node
-        return eval(ruby_emul(tree, frame), frame._binding)
+        code = ruby_emul(tree, frame)
       rescue NoMethodError => e
       end
 
-      send("handle_node_"+nodetype.to_s, tree, frame)
+      if code then
+        eval(code, frame._binding)
+      else
+        send("handle_node_"+nodetype.to_s, tree, frame)
+      end
     end
   end
 
@@ -166,7 +171,11 @@ module PartialRuby
         if (object_tree)
           "((#{emul(object_tree)}).#{method_name}(#{argsstr})"
         else
+          if arglist.count == 0
           "#{method_name}(#{argsstr})"
+          else
+          "#{method_name}"
+          end
         end
 
     end
