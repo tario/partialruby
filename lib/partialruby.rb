@@ -203,6 +203,10 @@ module PartialRuby
       "if (#{emul tree[1], frame}); (#{emul tree[2], frame}) else (#{emul tree[3], frame}) end"
     end
 
+    def ruby_emul_while(tree,frame)
+      "while (#{emul tree[1], frame}); (#{emul tree[2], frame}); end "
+    end
+
     def ruby_emul_call(tree, frame)
         object_tree = tree[1]
         method_name = tree[2]
