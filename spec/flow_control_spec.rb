@@ -13,10 +13,15 @@ describe Context, "PartialRuby context" do
     end
   end
 
-  assert_ruby_expr "if true; true; else; false; end"
-  assert_ruby_expr "if true; true; else; true; end"
-  assert_ruby_expr "if true; false; else; true; end"
-  assert_ruby_expr "if true; false; else; false; end"
+  def self.test_if(keyword)
+    assert_ruby_expr keyword + " true; true; else; false; end"
+    assert_ruby_expr keyword + " true; true; else; true; end"
+    assert_ruby_expr keyword + " true; false; else; true; end"
+    assert_ruby_expr keyword + " true; false; else; false; end"
+  end
+
+  test_if "if"
+  test_if "unless"
 
   assert_ruby_expr "i = 5 ; while(i>0); i=i-1; end; i"
   assert_ruby_expr "i = 5 ; until(i==0); i=i-1; end; i"
