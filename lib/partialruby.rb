@@ -207,6 +207,10 @@ module PartialRuby
       "while (#{emul tree[1], frame}); (#{emul tree[2], frame}); end "
     end
 
+    def ruby_emul_until(tree,frame)
+      "until (#{emul tree[1], frame}); (#{emul tree[2], frame}); end "
+    end
+
     def ruby_emul_call(tree, frame)
         object_tree = tree[1]
         method_name = tree[2]
