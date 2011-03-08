@@ -57,7 +57,11 @@ module PartialRuby
         # first, try to emul the node
         return ruby_emul(tree)
       rescue NoMethodError => e
-        "#{object_ref self}.run(#{object_ref tree}, PartialRuby::Frame.new(binding,self) )"
+        if tree
+          "#{object_ref self}.run(#{object_ref tree}, PartialRuby::Frame.new(binding,self) )"
+        else
+          "nil; "
+        end
       end
     end
 
