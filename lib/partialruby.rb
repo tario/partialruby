@@ -82,6 +82,10 @@ module PartialRuby
  #     run(tree[1], frame)
   #  end
 
+    def ruby_emul_nil(tree, frame)
+      "(nil)"
+    end
+
     def ruby_emul_scope(tree, frame)
       emul tree[1], frame
     end
