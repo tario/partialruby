@@ -47,10 +47,30 @@ module PartialRuby
       "ObjectSpace._id2ref(#{obj.object_id})"
     end
 
+    def ruby_emul(tree, frame)
+      nodetype = tree.first
+      eval(send("ruby_emul_"+nodetype.to_s, tree, frame))
+    end
+
+    def emul(tree, frame)
+      begin
+        # first, try to emul the node
+        return ruby_emul(tree, frame)
+      rescue NoMethodError
+        "#{object_ref self}.run(#{object_ref tree}, Frame.new(binding,self) )"
+      end
+    end
+
     def run(tree, frame)
       return nil unless tree
 
       nodetype = tree.first
+
+      begin
+        # first, try to emul the node
+        return ruby_emul(tree, frame)
+      rescue NoMethodError
+      end
 
       send("handle_node_"+nodetype.to_s, tree, frame)
     end
