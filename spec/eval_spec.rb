@@ -30,6 +30,26 @@ describe Context, "PartialRuby context" do
     TestClassWithFoo::X.should be == TestClassWithFoo::X
   end
 
+  it "should define a class with a method and the method must be callable" do
+
+    module TestClassWithFoo2
+    PartialRuby.eval 'class X; def foo; end; end', binding
+    end
+
+    x = TestClassWithFoo2::X.new
+    x.foo.should be == nil
+  end
+
+  it "should define a class with two methods and the methods must be callable" do
+
+    module TestClassWithFoo3
+    PartialRuby.eval 'class X; def foo; end; def bar; end; end', binding
+    end
+
+    x = TestClassWithFoo3::X.new
+    x.foo.should be == nil
+    x.bar.should be == nil
+  end
 
    # This does not work in the original ruby!
 #  it "should write a local variable" do
