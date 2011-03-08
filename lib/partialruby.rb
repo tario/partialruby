@@ -78,18 +78,33 @@ module PartialRuby
 
   class PureRubyContext < Context
 
-    def handle_node_scope(tree, frame)
-      run(tree[1], frame)
+#    def handle_node_scope(tree, frame)
+ #     run(tree[1], frame)
+  #  end
+
+    def ruby_emul_scope(tree, frame)
+      emul tree[1], frame
     end
 
-    def handle_node_block(tree, frame)
+    def ruby_emul_block(tree, frame)
       last = nil
+
+      code = ""
       tree[1..-1].each do  |subtree|
-        last = run(subtree, frame)
+        code << emul(subtree, frame) << "\n"
       end
 
-      last
+      code
     end
+
+#    def handle_node_block(tree, frame)
+ #     last = nil
+  #    tree[1..-1].each do  |subtree|
+   #     last = run(subtree, frame)
+    #  end
+
+     # last
+    #end
 
     def handle_node_lasgn(tree,frame)
       varname = tree[1]
