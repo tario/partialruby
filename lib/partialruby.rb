@@ -49,7 +49,7 @@ module PartialRuby
 
     def ruby_emul(tree, frame)
       nodetype = tree.first
-      eval(send("ruby_emul_"+nodetype.to_s, tree, frame), frame._binding)
+      send("ruby_emul_"+nodetype.to_s, tree, frame)
     end
 
     def emul(tree, frame)
@@ -57,7 +57,7 @@ module PartialRuby
         # first, try to emul the node
         return ruby_emul(tree, frame)
       rescue NoMethodError
-        "#{object_ref self}.run(#{object_ref tree}, Frame.new(binding,self) )"
+        "#{object_ref self}.run(#{object_ref tree}, PartialRuby::Frame.new(binding,self) )"
       end
     end
 
@@ -68,7 +68,7 @@ module PartialRuby
 
       begin
         # first, try to emul the node
-        return ruby_emul(tree, frame)
+        return eval(ruby_emul(tree, frame), frame._binding)
       rescue NoMethodError
       end
 
