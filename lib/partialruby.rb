@@ -118,18 +118,15 @@ module PartialRuby
         ")
     end
 
-    def handle_node_defn(tree, frame)
+    def ruby_emul_defn(tree, frame)
       method_name = tree[1]
       args = tree[2]
       impl = tree[3][1]
 
-      _self = frame._self
-
-      eval("def #{method_name}
-          #{object_ref self}.run(#{object_ref impl}, Frame.new(binding,self) )
+      "def #{method_name}
+          #{emul impl, frame}
         end
-      ", frame._binding)
-
+      "
     end
 
     def handle_node_str(tree, frame)
