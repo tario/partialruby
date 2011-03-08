@@ -79,4 +79,7 @@ describe Context, "PartialRuby context" do
   test_local_with_value "[5,6,7,8,9]"
   test_local_with_value "[[9,6],7,8,9]"
 
+  test_local_with_value "{ 1 => 3, 5 => 9}"
+
+
 end
