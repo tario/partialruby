@@ -55,9 +55,27 @@ Or
   
   class MyPartialRubyContext < PartialRuby::Context
   
-    node_handler :call, proc do |original_handler, node|
-        print "called #{node.id} method over #{node.recv}\n"
-	original_handler.call(node)
+    def ruby_emul_call(tree,frame)
+        object_tree = tree[1]
+        method_name = tree[2]
+
+        arglist = tree[3]
+
+        argsstr = arglist[1..-1].
+              map{|subtree| "(" +  emul(subtree, frame) + ")" }.
+              join(",")
+
+
+        if (object_tree)
+          "((#{emul(object_tree)}).#{method_name}(#{argsstr})"
+        else
+          if arglist.count == 0
+          "#{method_name}(#{argsstr})"
+          else
+          "#{method_name}"
+          end
+        end
+
     end
     
   end
