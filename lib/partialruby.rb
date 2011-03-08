@@ -106,20 +106,16 @@ module PartialRuby
      # last
     #end
 
-    def handle_node_lasgn(tree,frame)
+    def ruby_emul_lasgn(tree, frame)
       varname = tree[1]
       value = run(tree[2], frame)
 
-      frame._binding.eval("#{varname} = #{object_ref value}")
+      "#{varname} = #{object_ref value};"
     end
 
-    def handle_node_lit(tree,frame)
-      tree[1]
-    end
-
-    def handle_node_lvar(tree,frame)
+    def ruby_emul_lvar(tree,frame)
       varname = tree[1]
-      frame._binding.eval(varname.to_s)
+      varname.to_s + ";"
     end
 
     def ruby_emul_class(tree, frame)
@@ -142,6 +138,10 @@ module PartialRuby
           #{emul impl, frame}
         end
       "
+    end
+
+    def handle_node_lit(tree,frame)
+      tree[1]
     end
 
     def handle_node_str(tree, frame)
