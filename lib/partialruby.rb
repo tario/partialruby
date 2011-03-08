@@ -187,6 +187,10 @@ module PartialRuby
       "[" + tree[1..-1].map{ |subtree| "(" + emul(subtree, frame) + ")" }.join(",") + "]"
     end
 
+    def ruby_emul_self(tree,frame)
+      "(self)"
+    end
+
     def ruby_emul_call(tree, frame)
         object_tree = tree[1]
         method_name = tree[2]
@@ -199,7 +203,7 @@ module PartialRuby
 
 
         if (object_tree)
-          "((#{emul(object_tree)}).#{method_name}(#{argsstr})"
+          "(#{emul(object_tree, frame)}).#{method_name}(#{argsstr})"
         else
           if arglist.count == 0
           "#{method_name}(#{argsstr})"
