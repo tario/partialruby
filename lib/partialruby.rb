@@ -211,6 +211,13 @@ module PartialRuby
       "while (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
 
+    def ruby_emul_iter(tree)
+      callnode = tree[1]
+      innernode = tree[3]
+
+      "#{emul callnode} { #{emul innernode} }"
+    end
+
     def ruby_emul_until(tree)
       "until (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
