@@ -9,13 +9,13 @@ describe Context, "PartialRuby context" do
       yield
     end
 
-    def self.xoo
+    def self.bar
     end
   end
 
   it "should pass block statements" do
     BlockTest.should_receive :foo
-    BlockTest.should_receive :xoo
-    PartialRuby.eval("BlockTest.foo{ BlockTest.xoo }", binding)
+    BlockTest.should_receive :bar
+    PartialRuby.eval("BlockTest.foo{ BlockTest.bar }", binding)
   end
 end
