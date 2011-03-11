@@ -71,11 +71,11 @@ module PartialRuby
       nodetype = tree.first
 
       code = nil
-  #    begin
+      begin
         # first, try to emul the node
         code = ruby_emul(tree)
-#      rescue NoMethodError => e
- #     end
+      rescue NoMethodError => e
+      end
 
       if code then
         eval(code, frame._binding)
