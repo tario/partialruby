@@ -135,7 +135,7 @@ module PartialRuby
 
     def ruby_emul_lvar(tree)
       varname = tree[1]
-      varname.to_s + ";"
+      varname.to_s
     end
 
     def ruby_emul_const(tree)
@@ -216,9 +216,11 @@ module PartialRuby
       if nodetype == :lasgn
         tree.last.to_s
       elsif nodetype == :masgn
-        arguments[1][1..-1].map {|subtree|
+        tree[1][1..-1].map {|subtree|
           process_args(subtree)
         }.join(",")
+      elsif nodetype == :splat
+        "*" + process_args(tree.last)
       end
 
     end
@@ -257,6 +259,10 @@ module PartialRuby
       str
     end
 
+    def ruby_emul_splat(tree)
+      "*(#{emul(tree[1])})"
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
@@ -264,9 +270,14 @@ module PartialRuby
         arglist = tree[3]
 
         argsstr = arglist[1..-1].
-              map{|subtree| "(" +  emul(subtree) + ")" }.
+              map{|subtree|
+                if subtree[0] == :splat
+                  emul(subtree)
+                else
+                  "(" +  emul(subtree) + ")"
+                end
+                 }.
               join(",")
-
 
         if (object_tree)
           "(#{emul(object_tree)}).#{method_name}(#{argsstr})"
