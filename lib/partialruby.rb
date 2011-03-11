@@ -71,11 +71,11 @@ module PartialRuby
       nodetype = tree.first
 
       code = nil
-      begin
+  #    begin
         # first, try to emul the node
         code = ruby_emul(tree)
-      rescue NoMethodError => e
-      end
+#      rescue NoMethodError => e
+ #     end
 
       if code then
         eval(code, frame._binding)
@@ -211,11 +211,29 @@ module PartialRuby
       "while (#{emul tree[1]}); (#{emul tree[2]}); end "
     end
 
+    def process_args(tree)
+      nodetype = tree[0]
+      if nodetype == :lasgn
+        tree.last.to_s
+      elsif nodetype == :masgn
+        arguments[1][1..-1].map {|subtree|
+          process_args(subtree)
+        }.join(",")
+      end
+
+    end
+
     def ruby_emul_iter(tree)
       callnode = tree[1]
       innernode = tree[3]
 
-      "#{emul callnode} { #{emul innernode} }"
+      arguments = tree[2]
+      argumentsstr = ""
+
+      if arguments
+        argumentsstr = "|" + process_args(arguments) + "|"
+      end
+      "#{emul callnode} { #{argumentsstr} #{emul innernode} }"
     end
 
     def ruby_emul_until(tree)
