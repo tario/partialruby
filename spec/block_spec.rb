@@ -14,7 +14,6 @@ describe Context, "PartialRuby context" do
   end
 
   it "should pass block statements" do
-    BlockTest.should_receive :foo
     BlockTest.should_receive :bar
     PartialRuby.eval("BlockTest.foo{ BlockTest.bar }", binding)
   end
