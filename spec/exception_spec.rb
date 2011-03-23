@@ -28,4 +28,7 @@ describe Context, "PartialRuby context" do
   end
 
   assert_ruby_expr("raise Exception")
+  assert_ruby_expr("begin; raise Exception; rescue; 5; end")
+  assert_ruby_expr("begin; raise Exception; rescue Exception; 4; end")
+  assert_ruby_expr("begin; raise Exception; rescue Exception => e; 9; ensure; 4; end")
 end
