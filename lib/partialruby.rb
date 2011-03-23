@@ -263,6 +263,15 @@ module PartialRuby
       "*(#{emul(tree[1])})"
     end
 
+    def ruby_emul_rescue(tree)
+      "begin;
+        #{emul tree[1]}
+      rescue ( #{emul tree[2][1][1]});
+        #{emul tree[2][2]}
+      end;
+      "
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
