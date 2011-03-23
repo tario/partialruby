@@ -263,6 +263,15 @@ module PartialRuby
       "*(#{emul(tree[1])})"
     end
 
+    def ruby_emul_ensure(tree)
+      "begin;
+         #{emul tree[1]}
+      ensure;
+        #{emul tree[2] }
+      end;
+      "
+    end
+
     def ruby_emul_rescue(tree)
       "begin;
         #{emul tree[1]}
