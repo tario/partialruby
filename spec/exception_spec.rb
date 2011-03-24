@@ -42,10 +42,7 @@ describe Context, "PartialRuby context" do
    "rescue Errno::EINVAL; end",
    "rescue Errno::EINVAL => e; end",
    "rescue RuntimeError, Errno::EINVAL; end",
-   "rescue RuntimeError => e, Errno::EINVAL; e; end",
    "rescue RuntimeError, Errno::EINVAL => e; e; end",
-   "rescue RuntimeError => e, Errno::EINVAL => e2; e; end",
-   "rescue RuntimeError => e, Errno::EINVAL => e2; e2; end",
   ].each do |x|
   assert_ruby_expr("begin; raise Errno::EINVAL; #{x}")
   assert_ruby_expr("begin; raise RuntimeError; #{x}")
