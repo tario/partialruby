@@ -285,9 +285,10 @@ module PartialRuby
         object_tree = tree[1]
         method_name = tree[2]
 
-        arglist = tree[3]
+        arglisttree = tree[3]
+        arglist = arglisttree[1..-1]
 
-        argsstr = arglist[1..-1].
+        argsstr = arglist.
               map{|subtree|
                 if subtree[0] == :splat
                   emul(subtree)
@@ -298,12 +299,16 @@ module PartialRuby
               join(",")
 
         if (object_tree)
+          if arglist.count == 0
+          "(#{emul(object_tree)}).#{method_name}"
+          else
           "(#{emul(object_tree)}).#{method_name}(#{argsstr})"
+          end
         else
           if arglist.count == 0
-          "#{method_name}(#{argsstr})"
-          else
           "#{method_name}"
+          else
+          "#{method_name}(#{argsstr})"
           end
         end
 
