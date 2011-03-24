@@ -273,10 +273,39 @@ module PartialRuby
     end
 
     def ruby_emul_rescue(tree)
+
+      resbody = tree[2][2]
+
+      strresbody = ""
+      if resbody
+        strresbody = emul resbody
+      else
+        strresbody = ""
+      end
+
+      exceptionarray = tree[2][1][1..-1]
+
+      exceptionstrarray = []
+
+      i = 0
+      while i < exceptionarray.size
+        if exceptionarray[i+1]
+          if exceptionarray[i+1][0] == :lasgn
+           exceptionstrarray << "(" + (emul(exceptionarray[i]) + ") => " + exceptionarray[i+1][1].to_s)
+            i = i + 1
+          else
+            exceptionstrarray << "(" + (emul(exceptionarray[i])) + ")"
+          end
+        else
+          exceptionstrarray << "(" + (emul(exceptionarray[i])) + ")"
+        end
+        i = i + 1
+      end
+
       "begin;
         #{emul tree[1]}
-      rescue ( #{emul tree[2][1][1]});
-        #{emul tree[2][2]}
+      rescue #{exceptionstrarray.join(",")};
+        #{strresbody}
       end;
       "
     end
