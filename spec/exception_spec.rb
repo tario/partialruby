@@ -22,7 +22,7 @@ describe Context, "PartialRuby context" do
       end
     else
       it "should return #{expected} on expresion #{expr}" do
-        PartialRuby.eval(expr,binding).should be == expected
+        PartialRuby.eval(expr,binding).to_s.should be == expected.to_s
       end
     end
   end
