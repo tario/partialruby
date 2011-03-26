@@ -17,10 +17,11 @@ describe Context, "PartialRuby context" do
     end
   end
 
-  ["foo", "bar", "+", "**"].each do |method_name|
+  ["foo", "bar"].each do |method_name|
     test_method_def method_name
     { "a" => "1", "a,b" => "1,2"}.each do |k,v|
       test_method_def method_name, k, v
     end
   end
+
 end
