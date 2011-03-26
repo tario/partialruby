@@ -12,11 +12,23 @@ describe Context, "PartialRuby context" do
     end
   end
 
+  def self.test_modulename(modulename)
+    it "should declare module with name #{modulename}" do
+      PartialRuby.eval("module #{modulename}; end", binding)
+      newmodl = eval(modulename)
+      newmodl.should be == newmodl
+    end
+
+  end
+
   test_classname "X"
 
   module TestModuleA
   end
   test_classname "TestModuleA::X"
   test_classname "::X"
+
+  test_modulename "TestModuleA::Y"
+  test_modulename "::Y"
 
 end
