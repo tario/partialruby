@@ -187,6 +187,23 @@ module PartialRuby
       "(#{object_ref tree[1]})"
     end
 
+    def ruby_emul_dstr(tree)
+      firststr = tree[1]
+      retstr = firststr
+      tree[2..-1].each do |subtree|
+
+        subtreetype = subtree[0]
+
+        if subtreetype == :evstr
+          retstr << "\#{(#{emul subtree[1]})}"
+        else
+          retstr << "\#{(#{emul subtree})}"
+        end
+      end
+
+      '"' + retstr + '"'
+    end
+
     def ruby_emul_array(tree)
       "[" + tree[1..-1].map{ |subtree| "(" + emul(subtree) + ")" }.join(",") + "]"
     end
