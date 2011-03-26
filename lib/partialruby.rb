@@ -302,6 +302,14 @@ module PartialRuby
       "(#{tree[1].to_s} = (#{emul tree[2]}))"
     end
 
+    def ruby_emul_gvar(tree)
+      "(" + tree[1].to_s + ")"
+    end
+
+    def ruby_emul_gasgn(tree)
+      "(#{tree[1].to_s} = (#{emul tree[2]}))"
+    end
+
     def ruby_emul_yield(tree)
 
       strargs = tree[1..-1].map{ |subtree|
