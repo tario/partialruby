@@ -303,7 +303,16 @@ module PartialRuby
     end
 
     def ruby_emul_yield(tree)
-      "(yield)"
+
+      strargs = tree[1..-1].map{ |subtree|
+        if subtree[0] == :splat
+          "*(" + emul(subtree[1]) + ")"
+        else
+          "(" + emul(subtree) + ")"
+        end
+      }.join(",")
+
+      "(yield(#{strargs}))"
     end
 
     def ruby_emul_module(tree)
