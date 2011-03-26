@@ -173,7 +173,7 @@ module PartialRuby
       args = tree[2]
       impl = tree[3][1]
 
-      "def #{method_name}
+      "def #{method_name}(#{args[1..-1].map(&:to_s).join(",")})
           #{emul impl}
         end
       "
