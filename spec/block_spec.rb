@@ -45,4 +45,14 @@ describe Context, "PartialRuby context" do
     foo{}
   end
 
+  it "should implement yield statement with one argument" do
+    def foo_2
+      PartialRuby.eval("yield(4)", binding)
+    end
+
+    a = nil
+    foo_2{|x| a = x }
+    a.should be == 4
+  end
+
 end
