@@ -298,6 +298,11 @@ module PartialRuby
       "(" + tree[1].to_s + ")"
     end
 
+    def ruby_emul_iasgn(tree)
+      "(#{tree[1].to_s} = (#{emul tree[2]}))"
+    end
+
+
     def ruby_emul_rescue(tree)
 
       resbody = tree[2][2]
