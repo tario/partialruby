@@ -38,4 +38,11 @@ describe Context, "PartialRuby context" do
   test_block_arguments "1,2", [1,2]
   test_block_arguments "'test',2", ["test",2]
 
+  it "should implement yield statement" do
+    def foo
+      PartialRuby.eval("yield", binding)
+    end
+    foo{}
+  end
+
 end
