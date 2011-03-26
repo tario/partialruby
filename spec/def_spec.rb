@@ -24,4 +24,9 @@ describe Context, "PartialRuby context" do
     end
   end
 
+  it "should define singleton method" do
+    x = "test object"
+    PartialRuby.eval("def x.foo; end", binding)
+  end
+
 end
