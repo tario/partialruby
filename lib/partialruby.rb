@@ -168,6 +168,15 @@ module PartialRuby
         ")
     end
 
+    def ruby_emul_defs(tree)
+      methodname = tree[2]
+      args = tree[3]
+      "def (#{emul tree[1]}).#{methodname}(#{args[1..-1].map(&:to_s).join(",")})
+        #{emul tree[4]}
+      end
+      "
+    end
+
     def ruby_emul_defn(tree)
       method_name = tree[1]
       args = tree[2]
