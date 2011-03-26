@@ -302,6 +302,10 @@ module PartialRuby
       "(#{tree[1].to_s} = (#{emul tree[2]}))"
     end
 
+    def ruby_emul_yield(tree)
+      "(yield)"
+    end
+
     def ruby_emul_module(tree)
 
       if tree[1].instance_of? Symbol
