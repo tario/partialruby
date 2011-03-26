@@ -294,6 +294,10 @@ module PartialRuby
       "
     end
 
+    def ruby_emul_ivar(tree)
+      "(" + tree[1].to_s + ")"
+    end
+
     def ruby_emul_rescue(tree)
 
       resbody = tree[2][2]
