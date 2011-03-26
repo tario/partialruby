@@ -302,6 +302,19 @@ module PartialRuby
       "(#{tree[1].to_s} = (#{emul tree[2]}))"
     end
 
+    def ruby_emul_module(tree)
+
+      if tree[1].instance_of? Symbol
+        modulename = tree[1].to_s
+      else
+        modulename = emul tree[1]
+      end
+
+      "module #{modulename}
+        #{emul tree[2]}
+      end
+      "
+    end
 
     def ruby_emul_rescue(tree)
 
