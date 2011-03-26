@@ -180,7 +180,12 @@ module PartialRuby
     end
 
     def ruby_emul_lit(tree)
+      obj = tree[1]
+      if obj.instance_of? Symbol or obj.instance_of? Fixnum or obj == nil or obj == true or obj == false
+      "(#{obj.inspect})"
+      else
       "(#{object_ref tree[1]})"
+      end
     end
 
     def ruby_emul_str(tree)
