@@ -388,6 +388,10 @@ module PartialRuby
       "; return #{emul tree[1]}; "
     end
 
+    def ruby_emul_and(tree)
+      "(#{emul tree[1]}) and (#{emul tree[2]})"
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
