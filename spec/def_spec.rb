@@ -29,4 +29,7 @@ describe Context, "PartialRuby context" do
     PartialRuby.eval("def x.foo; end", binding)
   end
 
+  it "should compile return statements" do
+    PartialRuby.eval("def test_foo; return 4; end; test_foo", binding).should be == 4
+  end
 end
