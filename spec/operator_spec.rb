@@ -23,4 +23,15 @@ describe Context, "PartialRuby context" do
 
   assert_ruby_expr "[1][0]"
 
+  values = ["true", "false"]
+  ops = ["and", "or"]
+
+  values.each do |value1|
+  values.each do |value2|
+    ops.each do |op|
+      assert_ruby_expr "#{value1} #{op} #{value2}"
+    end
+  end
+  end
+
 end
