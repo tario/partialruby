@@ -384,6 +384,10 @@ module PartialRuby
       "
     end
 
+    def ruby_emul_return(tree)
+      "; return #{emul tree[1]}; "
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
