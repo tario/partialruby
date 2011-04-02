@@ -27,6 +27,7 @@ describe Context, "PartialRuby context" do
   ops = ["and", "or"]
 
   values.each do |value1|
+      assert_ruby_expr "not #{value1}"
   values.each do |value2|
     ops.each do |op|
       assert_ruby_expr "#{value1} #{op} #{value2}"
