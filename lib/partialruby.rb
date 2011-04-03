@@ -319,6 +319,10 @@ module PartialRuby
       "(#{tree[1].to_s} = (#{emul tree[2]}))"
     end
 
+    def ruby_emul_xstr(tree)
+      "`#{tree[1].gsub("`","")}`"
+    end
+
     def ruby_emul_yield(tree)
 
       strargs = tree[1..-1].map{ |subtree|
