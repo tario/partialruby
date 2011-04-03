@@ -24,7 +24,7 @@ describe Context, "PartialRuby context" do
   assert_ruby_expr "[1][0]"
 
   values = ["true", "false"]
-  ops = ["and", "or", "&&", "||"]
+  ops = ["and", "or", "&&", "||", "=="]
 
   values.each do |value1|
       assert_ruby_expr "not #{value1}"
