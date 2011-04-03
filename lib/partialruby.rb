@@ -201,6 +201,10 @@ module PartialRuby
       "(#{tree[1].inspect})"
     end
 
+    def ruby_emul_cdecl(tree)
+      "(#{tree[1]} = #{emul tree[2]})"
+    end
+
     def ruby_emul_dstr(tree)
       firststr = tree[1]
       retstr = firststr
