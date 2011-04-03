@@ -3,14 +3,25 @@ require "partialruby"
 include PartialRuby
 
 describe Context, "PartialRuby context" do
-  it "should read constant" do
-    TEST_CONST = 9
-    PartialRuby.eval("TEST_CONST", binding).should be == 9
+  def self.test_const_read(*const_names)
+    const_names.each do |const_name|
+      it "should read constant of name #{const_name}" do
+        eval("#{const_name} = 9")
+        PartialRuby.eval("#{const_name}", binding).should be == 9
+      end
+    end
   end
 
-  it "should assign constant" do
-    PartialRuby.eval("TEST_CONST_2 = 10", binding)
-    TEST_CONST_2.should be == 10
+  def self.test_const_assign(*const_names)
+    const_names.each do |const_name|
+      it "should assign constant of name #{const_name}" do
+        PartialRuby.eval("#{const_name} = 10", binding)
+        eval("#{const_name}").should be == 10
+      end
+    end
   end
+
+  test_const_read "TEST_CONST"
+  test_const_assign "TEST_CONST2"
 
 end
