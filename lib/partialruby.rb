@@ -198,7 +198,7 @@ module PartialRuby
     end
 
     def ruby_emul_str(tree)
-      "(#{object_ref tree[1]})"
+      "(#{tree[1].inspect})"
     end
 
     def ruby_emul_dstr(tree)
