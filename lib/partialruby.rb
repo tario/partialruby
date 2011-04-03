@@ -396,6 +396,10 @@ module PartialRuby
       "(#{emul tree[1]}) or (#{emul tree[2]})"
     end
 
+    def ruby_emul_not(tree)
+      "not (#{emul tree[1]})"
+    end
+
     def ruby_emul_call(tree)
         object_tree = tree[1]
         method_name = tree[2]
