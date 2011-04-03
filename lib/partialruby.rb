@@ -323,6 +323,23 @@ module PartialRuby
       "`#{tree[1].gsub("`","")}`"
     end
 
+    def ruby_emul_dxstr(tree)
+      firststr = tree[1]
+      retstr = firststr
+      tree[2..-1].each do |subtree|
+
+        subtreetype = subtree[0]
+
+        if subtreetype == :evstr
+          retstr << "\#{(#{emul subtree[1]})}"
+        else
+          retstr << "\#{(#{emul subtree})}"
+        end
+      end
+
+      '`' + retstr + '`'
+    end
+
     def ruby_emul_yield(tree)
 
       strargs = tree[1..-1].map{ |subtree|
