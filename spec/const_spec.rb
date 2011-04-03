@@ -24,4 +24,10 @@ describe Context, "PartialRuby context" do
   test_const_read "TEST_CONST"
   test_const_assign "TEST_CONST2"
 
+  test_const_read "Fixnum::TEST_CONST"
+  test_const_assign "Fixnum::TEST_CONST2"
+
+  test_const_read "::TEST_CONST3"
+  test_const_assign "::TEST_CONST4"
+
 end
