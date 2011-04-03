@@ -1,0 +1,3 @@
+* change interface to eval only ASTs (remove unnecessary ruby_parser dependency)
+* remove obsolete code of node evaluation (only keep emulation code)
+* Ruby 1.9 compatibility
