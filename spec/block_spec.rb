@@ -67,4 +67,17 @@ describe Context, "PartialRuby context" do
     b.should be == 5
   end
 
+  it "should implement yield statement with multiple arguments" do
+    def foo_2
+      x = [4,5]
+      PartialRuby.eval("yield(*x)", binding)
+    end
+
+    a = nil
+    b = nil
+    foo_2{|x,y| a = x; b = y }
+    a.should be == 4
+    b.should be == 5
+  end
+
 end
