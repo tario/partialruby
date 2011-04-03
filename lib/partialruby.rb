@@ -202,7 +202,12 @@ module PartialRuby
     end
 
     def ruby_emul_cdecl(tree)
+
+      if tree[1].instance_of? Sexp
+      "(#{emul tree[1]} = #{emul tree[2]})"
+      else
       "(#{tree[1]} = #{emul tree[2]})"
+      end
     end
 
     def ruby_emul_dstr(tree)
