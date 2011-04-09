@@ -1,3 +1,5 @@
+0.2.0	Refactor to use Ruby2Ruby for emulation logic
+
 0.1.0	First release
 
 		Spec and Basic AST emulation using ruby
