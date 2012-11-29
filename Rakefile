@@ -6,14 +6,14 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'partialruby'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.author = 'Dario Seminara'
   s.email = 'robertodarioseminara@gmail.com'
   s.platform = Gem::Platform::RUBY
   s.summary = 'Ruby partial interpreter written in pure-ruby '
   s.homepage = "http://github.com/tario/partialruby"
   s.add_dependency "ruby_parser", ">= 2.0.6"
-  s.add_dependency "ruby2ruby", ">= 1.2.5"
+  s.add_dependency "ruby2ruby", "~> 1.3"
   s.has_rdoc = true
   s.extra_rdoc_files = [ 'README' ]
   s.rdoc_options << '--main' << 'README'
