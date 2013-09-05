@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'rake'
+require 'rdoc/task'
+require 'rubygems/package_task'
 require 'rake/testtask'
-require 'rake/rdoctask'
-require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'partialruby'
@@ -12,8 +12,8 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = 'Ruby partial interpreter written in pure-ruby '
   s.homepage = "http://github.com/tario/partialruby"
-  s.add_dependency "ruby_parser", ">= 2.0.6"
-  s.add_dependency "ruby2ruby", ">= 1.2.5"
+  s.add_dependency "ruby_parser", "~> 2.0"
+  s.add_dependency "ruby2ruby", "~> 1.0"
   s.has_rdoc = true
   s.extra_rdoc_files = [ 'README' ]
   s.rdoc_options << '--main' << 'README'
@@ -37,7 +37,7 @@ Rake::RDocTask.new :rdoc do |rd|
 end
 
 desc 'Build Gem'
-Rake::GemPackageTask.new spec do |pkg|
+Gem::PackageTask.new spec do |pkg|
   pkg.need_tar = true
 end
 
