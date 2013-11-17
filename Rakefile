@@ -12,8 +12,8 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = 'Ruby partial interpreter written in pure-ruby '
   s.homepage = "http://github.com/tario/partialruby"
-  s.add_dependency "ruby_parser", "~> 2.0"
-  s.add_dependency "ruby2ruby", "~> 1.0"
+  s.add_dependency "ruby_parser", "~> 3"
+  s.add_dependency "ruby2ruby", "~> 2"
   s.has_rdoc = true
   s.extra_rdoc_files = [ 'README' ]
   s.rdoc_options << '--main' << 'README'
