@@ -43,7 +43,21 @@ module PartialRuby
     end
   end
 
+  class Packet
+    def initialize(emulationcode) #:nodoc:
+      @emulationcode = emulationcode
+    end
+    def run(binding_, name = "(eval)", line = 1)
+      eval(@emulationcode, binding_, name, line)
+    end
+  end
+
   class Context
+
+    def initialize
+      @preprocessors = Array.new
+    end
+
     def object_ref(obj)
       "ObjectSpace._id2ref(#{obj.object_id})"
     end
@@ -64,6 +78,30 @@ module PartialRuby
           "nil; "
         end
       end
+    end
+
+    def pre_process(&blk)
+      @preprocessors << blk
+    end
+
+    def packet(code)
+      tree = nil
+
+      begin
+        tree = RubyParser.new.parse code
+      rescue
+        raise SyntaxError
+      end
+
+      context = PartialRuby::PureRubyContext.new
+
+      @preprocessors.each do |preprocessor|
+        tree = preprocessor.call(tree)
+      end
+
+      emulationcode = context.emul tree
+
+      PartialRuby::Packet.new(emulationcode)
     end
 
     def run(tree, frame)
