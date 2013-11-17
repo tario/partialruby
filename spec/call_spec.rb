@@ -6,6 +6,9 @@ describe Context, "PartialRuby context" do
   class X
     def self.foo(*args)
     end
+
+    def self.bar
+    end
   end
 
   it "should make call without arguments" do
@@ -23,4 +26,15 @@ describe Context, "PartialRuby context" do
   end
 
   test_args "1,2,3", [1,2,3]
+
+  it "should allow breaking lines after point" do
+
+    X.should_receive(:foo).and_return(X)
+    to_run = <<-END
+    # Following 3 lines should do the same thing twice
+    X.foo()
+      .bar()
+    END
+    PartialRuby.eval(to_run, binding)
+  end
 end
